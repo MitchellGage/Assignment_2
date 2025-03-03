@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>US Population</title>
+    <style>
+        th {
+            border: 1px solid black;
+        }
+    </style>
+</head>
+<body>
+    <th>US Population</th>
+    <table>
+        <thead>
+            <tr>
+                <th>Year</th>
+                <th>Population</th>
+            </tr>
+        </thead>
+        <tbody id="data-container">
+        </tbody>
+    </table>
+    <script>
+        fetch("https://datausa.io/api/data?drilldowns=Nation&measures=Population")
+            .then(response => response.json())
+            .then(data => {
+                const tableBody = document.getElementById("data-container");
+                data.data.forEach(entry => {
+                    const row = document.createElement("tr");
+                    row.innerHTML = `
+                        <th>${entry.Year}</th>
+                        <th>${entry.Population.toLocaleString()}</th>
+                    `;
+                    tableBody.appendChild(row);
+                });
+            });
+    </script>
+</body>
